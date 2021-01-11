@@ -16,7 +16,7 @@ h1, h2, h3, h4, h5, h6, p {
   justify-content: space-between;
   align-items: center;
   background: #FAFAFA;
-  padding: 12px;
+  padding: 10px;
   border-bottom: 1px solid #eee;
   font-size: 0;
 }
@@ -61,7 +61,7 @@ h1, h2, h3, h4, h5, h6, p {
 .post-header-user__image {
   border-radius: 50%;
   position: relative;
-  border: 2px solid red;
+  /* border: 2px solid red; */
   margin-right: 12px;
 }
 .post-header-user__name {
@@ -150,6 +150,7 @@ h1, h2, h3, h4, h5, h6, p {
   width: 0;
   height: 0;
   position: absolute;
+  z-index: -999;
 }
 
 .posts {

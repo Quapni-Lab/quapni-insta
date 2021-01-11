@@ -14,7 +14,8 @@
 <body>
     <div id="app">
         <div>
-            <div class="svg-container"><svg xmlns="http://www.w3.org/2000/svg">
+            <div class="svg-container">
+                <svg xmlns="http://www.w3.org/2000/svg">
                     <symbol id="camera" viewBox="0 0 512 512">
                         <path
                             d="M324.3 64c3.3 0 6.3 2.1 7.5 5.2l22.1 58.8H464c8.8 0 16 7.2 16 16v288c0 8.8-7.2 16-16 16H48c-8.8 0-16-7.2-16-16V144c0-8.8 7.2-16 16-16h110.2l20.1-53.6c2.3-6.2 8.3-10.4 15-10.4h131m0-32h-131c-20 0-37.9 12.4-44.9 31.1L136 96H48c-26.5 0-48 21.5-48 48v288c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V144c0-26.5-21.5-48-48-48h-88l-14.3-38c-5.8-15.7-20.7-26-37.4-26zM256 408c-66.2 0-120-53.8-120-120s53.8-120 120-120 120 53.8 120 120-53.8 120-120 120zm0-208c-48.5 0-88 39.5-88 88s39.5 88 88 88 88-39.5 88-88-39.5-88-88-88z">
@@ -77,12 +78,16 @@
                             d="M376.788 304C412.456 270.302 432 224.227 432 176 432 78.817 353.231 0 256 0 158.817 0 80 78.769 80 176c0 48.403 19.674 94.424 55.212 128C52.749 304 0 365.933 0 434v25c0 29.224 23.776 53 53 53h406c29.224 0 53-23.776 53-53v-25c0-67.642-52.262-130-135.212-130zM112 176c0-79.529 64.471-144 144-144s144 64.471 144 144-64.471 144-144 144-144-64.471-144-144zm368 283c0 11.598-9.402 21-21 21H53c-11.598 0-21-9.402-21-21v-25c0-54.124 43.876-98 98-98h52.615c46.542 21.346 100.189 21.364 146.771 0H382c54.124 0 98 43.876 98 98v25z">
                         </path>
                     </symbol>
-                </svg></div>
+                </svg>
+            </div>
             <div>
                 <div class="header">
-                    <div><svg width="24px" height="24px" viewBox="0 0 512 512" class="svg svg--camera">
+                    <div class="btn" onclick="capture()">
+                        <svg width="24px" height="24px" viewBox="0 0 512 512" class="svg svg--camera">
                             <use xlink:href="#camera"></use>
-                        </svg></div>
+                        </svg>
+                        <input id="input-capture" class="d-none" type="file" accept="image/*" capture="capture">
+                    </div>
                     <div class="quapni-logo">
                         <img width="100%" src="https://i.imgur.com/LfEU3eM.png" alt="" srcset="">
                     </div>
@@ -121,7 +126,7 @@
                     <div class="post__header">
                         <div class="post-header">
                             <div class="post-header-user">
-                                <div><img src="https://via.placeholder.com/50" class="post-header-user__image"></div>
+                                <div><img src="https://i.imgur.com/B9bO1XF.jpg" class="post-header-user__image"></div>
                                 <div>
                                     <p class="post-header-user__name">Name 1</p>
                                     <p class="post-header-user__location">Middlesbrough, UK</p>
@@ -133,8 +138,7 @@
                                 </svg></div>
                         </div>
                     </div>
-                    <div class="post__image"><img
-                            src="https://i.imgur.com/cX0o2gl.jpg">
+                    <div class="post__image"><img src="https://i.imgur.com/cX0o2gl.jpg">
                     </div>
                     <div class="post__content">
                         <div class="post__interactions"><svg viewBox="0 0 512 512" class="svg svg--heart">
@@ -175,8 +179,7 @@
                                 </svg></div>
                         </div>
                     </div>
-                    <div class="post__image"><img
-                            src="https://i.imgur.com/ZnUl62Y.jpg">
+                    <div class="post__image"><img src="https://i.imgur.com/ZnUl62Y.jpg">
                     </div>
                     <div class="post__content">
                         <div class="post__interactions"><svg viewBox="0 0 512 512" class="svg svg--heart">
@@ -392,6 +395,7 @@
         </div>
     </div>
 
+    <script src="./js/index.js"></script>
 </body>
 
 </html>
