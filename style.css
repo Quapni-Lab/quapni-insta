@@ -1,0 +1,167 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto:400,700");
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  background-color: #FAFAFA;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #FAFAFA;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 0;
+}
+.header.quapni-logo{
+  width: 400px;
+}
+.stories {
+  padding: 12px;
+  border-bottom: 1px solid #F1F1F1;
+  overflow-x: scroll;
+  display: flex;
+  background-color: #fff;
+}
+.stories .story {
+  flex: 0 0 auto;
+  margin-right: 24px;
+  text-align: center;
+}
+.stories .story-user__image {
+  border-radius: 50%;
+  position: relative;
+  border: 2px solid red;
+}
+
+.post {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 40px;
+}
+.post__header {
+  padding: 12px;
+}
+.post-header {
+  display: flex;
+  align-items: center;
+}
+.post-header-user {
+  flex: 1 0 75%;
+  display: flex;
+  align-items: center;
+}
+.post-header-user__image {
+  border-radius: 50%;
+  position: relative;
+  border: 2px solid red;
+  margin-right: 12px;
+}
+.post-header-user__name {
+  font-weight: bold;
+}
+.post__interactions svg {
+  margin-right: 12px;
+}
+.post__status {
+  display: inline-block;
+  margin-bottom: 3px;
+}
+.post__likes {
+  margin-top: 12px;
+  margin-bottom: 3px;
+  font-weight: bold;
+}
+.post-comment__name {
+  font-weight: bold;
+}
+.post__comments {
+  margin-bottom: 12px;
+}
+.post__image img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+.post__time {
+  font-weight: lighter;
+  color: #787878;
+}
+.post__name {
+  font-weight: bold;
+  display: inline-block;
+}
+.post__content {
+  padding: 12px;
+}
+
+.svg--camera {
+  max-width: 24px;
+  max-height: 24px;
+}
+.svg--heart, .svg--share {
+  max-width: 24px;
+  max-height: 24px;
+}
+.svg--comment {
+  max-width: 27px;
+  max-height: 24px;
+}
+.svg--save {
+  max-width: 24px;
+  max-height: 24px;
+}
+.svg--logo {
+  max-height: 36px;
+}
+.svg--settings {
+  fill: #999999;
+  max-width: 24px;
+}
+.svg--navigation {
+  max-width: 24px;
+  max-height: 24px;
+  fill: #aaa;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: #FAFAFA;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 999;
+  box-shadow: 0 -2px 8px 0 #eee;
+}
+
+.svg-container {
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.posts {
+  padding-bottom: 72px;
+  margin: 0 auto;
+  max-width: 100%;
+  
+}
+@media (min-width: 1000px)  {
+  .posts {
+    /* display: grid;
+    grid-template-columns: repeat(3, 1fr); */
+    max-width: 500px;
+  }
+}

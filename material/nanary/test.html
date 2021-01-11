@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<body>
+    <!-- <input id="myFileInput" type="file" accept="image/*;capture=camera"> -->
+    <div class="btn btn-primary" onclick="capture()">
+        <input id="input-capture" class="d-none" type="file" accept="image/*" capture="capture">click
+    </div>
+
+
+    <script>
+        var myInput = document.getElementById('myFileInput');
+
+        function sendPic() {
+            var file = myInput.files[0];
+
+            // Send file here either by adding it to a `FormData` object 
+            // and sending that via XHR, or by simply passing the file into 
+            // the `send` method of an XHR instance.
+        }
+
+        myInput.addEventListener('change', sendPic, false);
+
+        function capture(){
+            document.getElementById("input-capture").click();
+        }
+
+
+    </script>
+</body>
+
+</html>
