@@ -43,6 +43,12 @@ img {
   overflow-x: scroll;
   display: flex;
   background-color: #fff;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.stories::-webkit-scrollbar {
+  display: none;
 }
 .stories .story {
   flex: 0 0 auto;
