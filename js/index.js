@@ -1,6 +1,9 @@
 
 const inputCapture = document.getElementById('inputCapture');
-
+let compressRatio = 0.8, // 圖片壓縮比例
+    imgNewWidth = 1080, // 圖片新寬度
+    canvas = document.createElement("canvas"),
+    context = canvas.getContext("2d");
 /**
  * File 轉 base64
  * @param {*} file 
@@ -8,8 +11,50 @@ const inputCapture = document.getElementById('inputCapture');
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result.split(",")[1]);
+    reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
+});
+/**
+ * 取得圖片大小
+ * @param {*} file 
+ */
+const getSize = (file) => new Promise((resolve, reject) => {
+    var _URL = window.URL || window.webkitURL;
+    var img = new Image();
+
+    img.onload = () => resolve({ height: img.height, width: img.width });
+    img.onerror = reject;
+
+    img.src = _URL.createObjectURL(file);
+    imgDom = img;
+});
+/**
+ * 壓縮圖片並回傳壓縮後的base64與size
+ * @param {*} file 
+ * @param {*} sizeImage 
+ * @param {*} imageUrl 
+ */
+const getCompressImage = (file, sizeImage, imageUrl) => new Promise((resolve, reject) => {
+    var width = sizeImage.width, // 圖片原始寬度
+        height = sizeImage.height, // 圖片原始高度
+        imgNewHeight = imgNewWidth * height / width, // 圖片新高度
+        html = "",
+        newImg;
+
+    console.log("檔案大小約 " + Math.round(file.size / 1000));
+
+    // 使用 canvas 調整圖片寬高
+    canvas.width = imgNewWidth;
+    canvas.height = imgNewHeight;
+    context.clearRect(0, 0, imgNewWidth, imgNewHeight);
+
+    // 調整圖片尺寸
+    context.drawImage(imgDom, 0, 0, imgNewWidth, imgNewHeight);
+
+    // 顯示新圖片
+    newImg = canvas.toDataURL("image/jpeg", compressRatio).split(",")[1];
+    console.log("檔案大小約 " + Math.round(0.75 * newImg.length / 1000));
+    resolve({ width, height, newImg, imgNewHeight, imgNewWidth });
 });
 
 
@@ -66,10 +111,12 @@ const sendPic = async () => {
     var file = inputCapture.files[0];
     var t0 = performance.now()
     const base64Image = await toBase64(file);
-    console.log(base64Image)
-    // document.getElementById('originImage').src = `data:image/jpeg;base64,${base64Image}`;
+    const sizeImage = await getSize(file);
+    const base64ImageCompress = await getCompressImage(file, sizeImage, base64Image);
+    console.log(base64ImageCompress)
+    document.getElementById('originImage').src = `data:image/jpeg;base64,${base64ImageCompress.newImg}`;
     axios.post(`https://5f6c24ba63db.ngrok.io/swap`, {
-        image: base64Image
+        image: base64ImageCompress.newImg
     })
         .then((response) => {
             var dataObject = response.data;
