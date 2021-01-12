@@ -10,7 +10,15 @@ body {
 h1, h2, h3, h4, h5, h6, p {
   margin: 0;
 }
-
+img {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
+ }
 .header {
   display: flex;
   justify-content: space-between;
