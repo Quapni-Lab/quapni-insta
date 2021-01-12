@@ -19,18 +19,21 @@ function capture() {
 
 const sendPic = async () => {
     var file = inputCapture.files[0];
-
+    var t0 = performance.now()
     const base64Image = await toBase64(file);
     console.log(base64Image)
-
-    axios.post(`http://127.0.0.1:5000/swap`, {
+    document.getElementById('originImage').src = `data:image/jpeg;base64,${base64Image}`;
+    axios.post(`https://8dcc32864a32.ngrok.io/swap`, {
         image: base64Image
     })
         .then((response) => {
             var dataObject = response.data;
             // POST success
             const responseImg = dataObject.result.split("'")[1];
-            // document.getElementById('image').src = `data:image/jpeg;base64,${responseImg}`;
+            document.getElementById('resultImage').src = `data:image/jpeg;base64,${responseImg}`;
+            var t1 = performance.now()
+            console.log("Call to doSomething took " + (t1 - t0)/1000 + " seconds.")
+
 
         },
             (error) => {
