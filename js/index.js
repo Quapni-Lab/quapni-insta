@@ -62,6 +62,14 @@ function capture() {
     inputCapture.click();
 }
 
+/**
+ * Get Post Info.
+ * @param {*} responseImg 
+ */
+function getAllPost(){
+    
+}
+
 function getPost(responseImg){
     let html=`
             <div class="post__header">
