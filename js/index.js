@@ -86,9 +86,7 @@ function getPost(responseImg, isBase64=0) {
     let imageSrc='';
     if(isBase64){
         imageSrc='data:image/jpeg;base64,';
-        console.log(isBase64+'我是')
     }
-    console.log(responseImg)
     let html = `
             <div class="post__header">
                 <div class="post-header">
