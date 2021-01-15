@@ -64,14 +64,26 @@ function capture() {
 
 /**
  * Get Post Info.
- * @param {*} responseImg 
+ * @param {*}  
  */
-function getAllPost(){
-    
+function getAllPost() {
+    return new Promise((resolve, reject) => {
+        axios.get(`https://script.google.com/macros/s/AKfycbx0sI3b2PmOWnYk8Tuu20W2LQ4VTflpFZJfrFPRad4N4a7BCY-yfqZ3/exec`)
+            .then((response) => {
+                var dataObject = response.data;
+                // GET success
+                resolve(dataObject);
+            },
+                (error) => {
+                    var message = error.response.data.message;
+                    reject(message);
+                }
+            );
+    });
 }
 
-function getPost(responseImg){
-    let html=`
+function getPost(responseImg) {
+    let html = `
             <div class="post__header">
                 <div class="post-header">
                     <div class="post-header-user">
@@ -87,7 +99,7 @@ function getPost(responseImg){
                         </svg></div>
                 </div>
             </div>
-            <div class="post__image"><img src="data:image/jpeg;base64,${responseImg}">
+            <div class="post__image"><img src="${responseImg}">
             </div>
             <div class="post__content">
                 <div class="post__interactions"><svg viewBox="0 0 512 512" class="svg svg--heart">
@@ -112,8 +124,29 @@ function getPost(responseImg){
                 <div class="post__time">2 Days Ago</div>
             </div>`
 
-            return html
+    return html
 }
+
+async function initAllPosts() {
+    // getAllPost().then(res => {
+    //     console.log(res);
+    //     // return promiseFn(0);
+        
+    // });
+
+    let allPostList = await getAllPost();
+    for (let i = 0; i < allPostList.length; i++) {
+        console.log(allPostList[i].name)
+        // Render Result
+        let html = getPost(`https://0bbbd82accf9.ngrok.io/static/output/${allPostList[i].name}`)
+        const postContainer = document.getElementById('postContainer');
+        let postDom = document.createElement('div');
+        postDom.className = ('post');
+        postDom.innerHTML = html;
+        postContainer.insertBefore(postDom, postContainer.childNodes[0]);
+    }
+}
+initAllPosts();
 
 const sendPic = async () => {
     var file = inputCapture.files[0];
@@ -137,11 +170,11 @@ const sendPic = async () => {
 
             // Render Result
             let html = getPost(responseImg)
-            const postList = document.getElementById('postContainer');
+            const postContainer = document.getElementById('postContainer');
             let postDom = document.createElement('div');
             postDom.className = ('post');
             postDom.innerHTML = html;
-            postList.insertBefore(postDom, postList.childNodes[0]);
+            postContainer.insertBefore(postDom, postContainer.childNodes[0]);
 
 
         },
