@@ -82,7 +82,13 @@ function getAllPost() {
     });
 }
 
-function getPost(responseImg) {
+function getPost(responseImg, isBase64=0) {
+    let imageSrc='';
+    if(isBase64){
+        imageSrc='data:image/jpeg;base64,';
+        console.log(isBase64+'我是')
+    }
+    console.log(responseImg)
     let html = `
             <div class="post__header">
                 <div class="post-header">
@@ -99,7 +105,7 @@ function getPost(responseImg) {
                         </svg></div>
                 </div>
             </div>
-            <div class="post__image"><img src="${responseImg}">
+            <div class="post__image"><img src="${imageSrc}${responseImg}">
             </div>
             <div class="post__content">
                 <div class="post__interactions"><svg viewBox="0 0 512 512" class="svg svg--heart">
@@ -169,7 +175,7 @@ const sendPic = async () => {
             console.log("Call to doSomething took " + (t1 - t0) / 1000 + " seconds.")
 
             // Render Result
-            let html = getPost(responseImg)
+            let html = getPost(responseImg, 1)
             const postContainer = document.getElementById('postContainer');
             let postDom = document.createElement('div');
             postDom.className = ('post');
