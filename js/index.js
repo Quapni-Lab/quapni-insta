@@ -202,6 +202,7 @@ const sendPic = async () => {
         },
             (error) => {
                 var message = error.response.data.message;
+                console.log('QQ失敗了 '+ message);
             }
         );
 }
