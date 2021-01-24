@@ -85,7 +85,8 @@ function getAllPost() {
 function getPost(responseImg, isBase64 = 0) {
     let imageSrc = '';
     if (isBase64) {
-        imageSrc = 'data:image/jpeg;base64,';
+        imageSrc = `data:image/jpeg;base64,${responseImg}`;
+        responseImg = '';
     }
     let html = `
             <div class="post__header">
@@ -103,7 +104,7 @@ function getPost(responseImg, isBase64 = 0) {
                         </svg></div>
                 </div>
             </div>
-            <div class="post__image"><img class="img lazy" data-src="${imageSrc}${responseImg}">
+            <div class="post__image"><img class="img lazy" data-src="${responseImg}" src="${imageSrc}">
             </div>
             <div class="post__content">
                 <div class="post__interactions"><svg viewBox="0 0 512 512" class="svg svg--heart">
@@ -134,11 +135,14 @@ function getPost(responseImg, isBase64 = 0) {
 async function initAllPosts() {
     // GET All Posts from google sheet
     let allPostList = await getAllPost();
+    // Retrive first 5 new posts
+    let postsLiist=allPostList.slice(Math.max(allPostList.length - 5, 1));
+    console.log(postsLiist)
     // Render All posts image
-    for (let i = 5; i >= 0; i--) {
-        console.log(allPostList[i].name)
+    for (let i = 0; i < postsLiist.length; i++) {
+        console.log(postsLiist[i].name)
         // Render Result
-        let html = getPost(`https://3fbde1e255e7.ngrok.io/static/output/${allPostList[i].name}`)
+        let html = getPost(`https://3fbde1e255e7.ngrok.io/static/output/${postsLiist[i].name}`)
         const postContainer = document.getElementById('postContainer');
         let postDom = document.createElement('div');
         postDom.className = ('post');
@@ -162,7 +166,7 @@ function lazyLoading(){
                 // 監視目標進入畫面
                 const img = entry.target
                 img.setAttribute('src', img.dataset.src) // 把值塞回 src
-                img.removeAttribute('data-src')
+                // img.removeAttribute('data-src')
                 observer.unobserve(img) // 取消監視
             }
         }
@@ -185,20 +189,18 @@ const sendPic = async () => {
         .then((response) => {
             var dataObject = response.data;
             // POST success
-            const responseImg = dataObject.result.split("'")[1];
+            // const responseImg = dataObject.result.split("'")[1];
             // document.getElementById('resultImage').src = `data:image/jpeg;base64,${responseImg}`;
             var t1 = performance.now()
-            console.log("Call to doSomething took " + (t1 - t0) / 1000 + " seconds.")
-
+            console.log("Call to doSomething took " + (t1 - t0) / 1000 + " seconds.");
+            location.reload();
             // Render Result
-            let html = getPost(responseImg, 1)
-            const postContainer = document.getElementById('postContainer');
-            let postDom = document.createElement('div');
-            postDom.className = ('post');
-            postDom.innerHTML = html;
-            postContainer.insertBefore(postDom, postContainer.childNodes[0]);
-
-
+            // let html = getPost(responseImg, 1)
+            // const postContainer = document.getElementById('postContainer');
+            // let postDom = document.createElement('div');
+            // postDom.className = ('post');
+            // postDom.innerHTML = html;
+            // postContainer.insertBefore(postDom, postContainer.childNodes[0]);
         },
             (error) => {
                 var message = error.response.data.message;
