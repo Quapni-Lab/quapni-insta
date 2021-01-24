@@ -142,7 +142,7 @@ async function initAllPosts() {
     for (let i = 0; i < postsLiist.length; i++) {
         console.log(postsLiist[i].name)
         // Render Result
-        let html = getPost(`https://3fbde1e255e7.ngrok.io/static/output/${postsLiist[i].name}`)
+        let html = getPost(`https://ed83aedbad62.ngrok.io/static/output/${postsLiist[i].name}`)
         const postContainer = document.getElementById('postContainer');
         let postDom = document.createElement('div');
         postDom.className = ('post');
@@ -182,7 +182,7 @@ const sendPic = async () => {
     const base64ImageCompress = await getCompressImage(file, sizeImage, base64Image);
     // console.log(base64ImageCompress)
     // document.getElementById('originImage').src = `data:image/jpeg;base64,${base64ImageCompress.newImg}`;
-    axios.post(`https://3fbde1e255e7.ngrok.io/predict`, {
+    axios.post(`https://ed83aedbad62.ngrok.io/predict`, {
         image: base64ImageCompress.newImg
         // image: base64Image.split(',')[1]
     })
