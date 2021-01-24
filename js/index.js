@@ -176,8 +176,8 @@ const sendPic = async () => {
     const base64Image = await toBase64(file);
     const sizeImage = await getSize(file);
     const base64ImageCompress = await getCompressImage(file, sizeImage, base64Image);
-    console.log(base64ImageCompress)
-    document.getElementById('originImage').src = `data:image/jpeg;base64,${base64ImageCompress.newImg}`;
+    // console.log(base64ImageCompress)
+    // document.getElementById('originImage').src = `data:image/jpeg;base64,${base64ImageCompress.newImg}`;
     axios.post(`https://3fbde1e255e7.ngrok.io/predict`, {
         image: base64ImageCompress.newImg
         // image: base64Image.split(',')[1]
