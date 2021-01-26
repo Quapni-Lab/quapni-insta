@@ -26,30 +26,40 @@ async function submit() {
 
 
 async function predict(imgElement) {
-  console.log(imgElement)
+  // console.log(imgElement)
   // 將 HTML <img> 轉換成轉換為矩陣 tensor
   const tfImg = tf.browser.fromPixels(imgElement);
-  // 強制將圖片縮小到 28*28 像素
+  // 強制將圖片縮小到 128*128 像素
   const smalImg = tf.image.resizeNearestNeighbor(tfImg, [128, 128]);
   // 將 tensor 設為浮點型態，且將張量攤平至一為矩陣。此時 shape 為 [1,128,128,3]
   let tensor = smalImg.reshape([1, 128, 128, 3]);
   // 將所有數值除以255
   tensor = tensor.div(tf.scalar(255));
   // 預測 
+  start = new Date().getTime();
   const pred = model.predict(tensor);
+  
   let pred_mask = pred.arraySync()[0];
   let alpha = 0.3 // Mask 透明度
-  let [H, W, C] = smalImg.shape;
-  let img = smalImg.arraySync();
+  let [H, W, C] = tfImg.shape;
+  W=Math.floor(W/5)
+  H=Math.floor(H/5)
   // convert 0 1
-  for (let i = 0; i < H; i++) {
-    for (let j = 0; j < W; j++) {
+  for (let i = 0; i < 128; i++) {
+    for (let j = 0; j < 128; j++) {
       if (pred_mask[i][j] > 0.5)
         pred_mask[i][j] = 1;
       else
         pred_mask[i][j] = 0;
     }
   }
+  
+  pred_mask= tf.tensor(pred_mask)
+  pred_mask= pred_mask.reshape([128, 128, 1]);
+  pred_mask = tf.image.resizeBilinear(pred_mask, [H, W]);
+  pred_mask=pred_mask.arraySync();
+  origin_img_resize = tf.image.resizeBilinear(tfImg, [H, W]);
+  let img = origin_img_resize.arraySync();
   for (let i = 0; i < H; i++)
     for (let j = 0; j < W; j++)
       if (pred_mask[i][j] >= 0.01) {
@@ -59,12 +69,15 @@ async function predict(imgElement) {
   // origin image with mask
   let tfResult = tf.tensor(img);
   tfResult = tf.cast(tfResult, 'int32');
-  console.log(tfResult.shape);
   const canvas = document.createElement('canvas');
-  canvas.width = tfResult.shape.width
-  canvas.height = tfResult.shape.height
+  canvas.width = 100
+  canvas.height = 100
+  
   await tf.browser.toPixels(tfResult, canvas);
   document.body.appendChild(canvas);
+
+  end = new Date().getTime();
+  console.log((end - start) / 1000 + "sec");
 
   // function flattenDeep(arr1) {
   //   return arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val), []);
@@ -82,3 +95,9 @@ async function predict(imgElement) {
   // await tf.browser.toPixels(mypred, canvas);
   // document.body.appendChild(canvas);
 }
+
+
+/**
+ * convert prediction tensor to an image from stackoverflow
+ * https://stackoverflow.com/questions/64483632/convert-prediction-tensor-to-an-image
+ */
