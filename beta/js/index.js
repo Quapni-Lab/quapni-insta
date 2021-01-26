@@ -30,7 +30,7 @@ async function predict(imgElement) {
   // 將 HTML <img> 轉換成轉換為矩陣 tensor
   const tfImg = tf.browser.fromPixels(imgElement);
   // 強制將圖片縮小到 28*28 像素
-  const smalImg = tf.image.resizeBilinear(tfImg, [128, 128]);
+  const smalImg = tf.image.resizeNearestNeighbor(tfImg, [128, 128]);
   // 將 tensor 設為浮點型態，且將張量攤平至一為矩陣。此時 shape 為 [1,128,128,3]
   let tensor = smalImg.reshape([1, 128, 128, 3]);
   // 將所有數值除以255
@@ -53,8 +53,19 @@ async function predict(imgElement) {
   for (let i = 0; i < H; i++)
     for (let j = 0; j < W; j++)
       if (pred_mask[i][j] >= 0.01) {
-        img[i][j][2] = (1 - alpha) * img[i][j][2] + alpha * 255
+        img[i][j][0] = (1 - alpha) * img[i][j][0] + alpha * 255
       }
+
+  // origin image with mask
+  let tfResult = tf.tensor(img);
+  tfResult = tf.cast(tfResult, 'int32');
+  console.log(tfResult.shape);
+  const canvas = document.createElement('canvas');
+  canvas.width = tfResult.shape.width
+  canvas.height = tfResult.shape.height
+  await tf.browser.toPixels(tfResult, canvas);
+  document.body.appendChild(canvas);
+
   // function flattenDeep(arr1) {
   //   return arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val), []);
   // }
@@ -62,11 +73,12 @@ async function predict(imgElement) {
   // let base64String = btoa(String.fromCharCode(...new Uint8Array(img)));
   // document.getElementById('showImage').src=`data:image/jpeg;base64,${base64String}`;
   // console.log(base64String)
-  const canvas = document.createElement('canvas');
-  let mypred=pred.reshape([128, 128, 1])
-  canvas.width = mypred.shape.width
-  canvas.height = mypred.shape.height
-  await tf.browser.toPixels(mypred, canvas);
-  // document.body.innerHTML+=canvas;
-  document.body.appendChild(canvas);
+
+  // Show predict mask
+  // const canvas = document.createElement('canvas');
+  // let mypred=pred.reshape([128, 128, 1])
+  // canvas.width = mypred.shape.width
+  // canvas.height = mypred.shape.height
+  // await tf.browser.toPixels(mypred, canvas);
+  // document.body.appendChild(canvas);
 }
