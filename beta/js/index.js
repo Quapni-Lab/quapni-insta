@@ -1,5 +1,7 @@
 async function init() {
   model = await tf.loadLayersModel('/beta/models/model.json');
+  document.getElementById('statusText').innerText='load done!';
+  console.log('load done.');
 }
 
 async function submit() {
