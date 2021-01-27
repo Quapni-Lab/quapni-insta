@@ -1,5 +1,5 @@
 async function init() {
-  model = await tf.loadLayersModel('./models/model.json');
+  model = await tf.loadLayersModel('/beta/models/model.json');
 }
 
 async function submit() {
